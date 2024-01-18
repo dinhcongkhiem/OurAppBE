@@ -6,6 +6,7 @@ import com.ourapplication.server.ourapplication.Model.Users;
 import com.ourapplication.server.ourapplication.Response.LoginResponse;
 import com.ourapplication.server.ourapplication.Response.NotifyTokenResponse;
 import com.ourapplication.server.ourapplication.Response.UserInforResponse;
+import com.ourapplication.server.ourapplication.Service.ChatMessageService;
 import com.ourapplication.server.ourapplication.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user/")
 public class UserController {
     private final UserService userService;
+    private final ChatMessageService chatMessageService;
 
     @GetMapping("/infor")
     public ResponseEntity<UserInforResponse> getUserInfor() {

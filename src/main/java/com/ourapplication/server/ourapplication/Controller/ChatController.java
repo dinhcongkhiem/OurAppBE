@@ -48,7 +48,7 @@ public class ChatController {
         ChatMessage savedMsg = chatMessageService.save(chatMessage);
         Users user = usersRepository.findById(chatMessage.getRecipientId()).get();
         if (!user.isOnline()) {
-            chatMessageService.SendNotification(chatMessage);
+//            chatMessageService.SendNotification(chatMessage);
         }
         messagingTemplate.convertAndSendToUser(
                 String.valueOf(chatMessage.getRecipientId()), "/queue/messages",

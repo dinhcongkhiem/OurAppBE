@@ -43,36 +43,37 @@ public class ChatMessageService {
 
     public List<ChatMessage> findChatMessages(Long senderId, Long recipientId, findChatMessageRequest timestamp) {
         var chatId = chatRoomService.getChatRoomId(senderId, recipientId, false);
-        if(chatId.isEmpty()){
+        if (chatId.isEmpty()) {
             return null;
         }
-        List<ChatMessage> listChatmesage =  chatMessageRepository.findByChatIdAndLessThanCreateAt(chatId.get(), timestamp.getCreateAt(),
+        List<ChatMessage> listChatmesage = chatMessageRepository.findByChatIdAndLessThanCreateAt(chatId.get(), timestamp.getCreateAt(),
                 PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "createAt")));
         Collections.reverse(listChatmesage);
         return listChatmesage;
-//        return chatId.map(chatMessageRepository::findByChatId).orElse(new ArrayList<>());
     }
 
-    public void SendNotification(ChatMessage request) throws Exception {
+        public void SendNotification(ChatMessage request) throws Exception {
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        Users user = usersRepository.findById(request.getRecipientId()).get();
+//        Users user = usersRepository.findById(request.getRecipientId()).get();
+
+        String bodyNotifi = request.getContent();
+        String jsonPayload = "{\n" +
+                "  \"postBody\": {\"notification\": {\"title\": \"Message\",\"body\": \" " + bodyNotifi+ "\"},\n" +
+                "    \"to\":\"fCcOBhLaTJiwqoEVUNqrS_:APA91bFJxeUZqrjbHyy1Wa_TFcjzaZgXpwyeH3q71TRJuFEy7u8CorplPIIbUXH7vXR79enBKncbCcQnMbVNo2KG8LKIyTBS8Rw-8A-t_WZKh9z63xJCPkTq2NPqmFk2hEVryPsv8h6J\" },\n" +
+                "  \"serverKey\":\"AAAAbz0ggT8:APA91bGZ6ojVi2jtMVhoTmWJOlGbH23NesFOanhN-sqlgUKkG-H-qXS-iUXOKAn6FfknQwYC4bnSXs3rGZeFeaLvlEx7-QlEv_AxpYzhvPuxDeYFbmFp7B_NXGufbeHqGiDGlKy7gAjP\"\n" +
+                "}";
 
 
-
-        SendNotificationRequest sendNotificationRequest = new SendNotificationRequest();
-        sendNotificationRequest.setTo(user.getPushNotifyToken());
-        sendNotificationRequest.setSound("default");
-        sendNotificationRequest.setTitle("Message");
-        sendNotificationRequest.setBody(request.getContent());
-
-        HttpEntity<SendNotificationRequest> entity = new HttpEntity<>(sendNotificationRequest, headers);
+        HttpEntity<String> entity = new HttpEntity<>(jsonPayload, headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                "https://exp.host/--/api/v2/push/send",
+                "https://testfcm.com/api/notify",
                 HttpMethod.POST,
                 entity,
                 String.class
         );
+
 
     }
 }
