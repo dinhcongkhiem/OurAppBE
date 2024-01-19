@@ -33,7 +33,6 @@ public class Users implements UserDetails {
     private String activeKey;
     private boolean isEnabled = false;
     private String pushNotifyToken;
-    private boolean isOnline = false;
     private Long IdOfPartner;
     private Date createDate = new Date();
 

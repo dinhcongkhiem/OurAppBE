@@ -47,9 +47,9 @@ public class ChatController {
     public void processMessage(@Payload ChatMessage chatMessage) throws Exception {
         ChatMessage savedMsg = chatMessageService.save(chatMessage);
         Users user = usersRepository.findById(chatMessage.getRecipientId()).get();
-        if (!user.isOnline()) {
-//            chatMessageService.SendNotification(chatMessage);
-        }
+
+        chatMessageService.SendNotification(chatMessage);
+
         messagingTemplate.convertAndSendToUser(
                 String.valueOf(chatMessage.getRecipientId()), "/queue/messages",
                 new ChatNotification(

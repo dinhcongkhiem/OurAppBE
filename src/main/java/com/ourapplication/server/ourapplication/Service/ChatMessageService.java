@@ -56,12 +56,13 @@ public class ChatMessageService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-//        Users user = usersRepository.findById(request.getRecipientId()).get();
+        Users user = usersRepository.findById(request.getRecipientId()).get();
 
         String bodyNotifi = request.getContent();
+        String tokenNotify = user.getPushNotifyToken();
         String jsonPayload = "{\n" +
                 "  \"postBody\": {\"notification\": {\"title\": \"Message\",\"body\": \" " + bodyNotifi+ "\"},\n" +
-                "    \"to\":\"fCcOBhLaTJiwqoEVUNqrS_:APA91bFJxeUZqrjbHyy1Wa_TFcjzaZgXpwyeH3q71TRJuFEy7u8CorplPIIbUXH7vXR79enBKncbCcQnMbVNo2KG8LKIyTBS8Rw-8A-t_WZKh9z63xJCPkTq2NPqmFk2hEVryPsv8h6J\" },\n" +
+                "    \"to\":\" " +tokenNotify+ "\"},\n" +
                 "  \"serverKey\":\"AAAAbz0ggT8:APA91bGZ6ojVi2jtMVhoTmWJOlGbH23NesFOanhN-sqlgUKkG-H-qXS-iUXOKAn6FfknQwYC4bnSXs3rGZeFeaLvlEx7-QlEv_AxpYzhvPuxDeYFbmFp7B_NXGufbeHqGiDGlKy7gAjP\"\n" +
                 "}";
 
@@ -73,7 +74,6 @@ public class ChatMessageService {
                 entity,
                 String.class
         );
-
 
     }
 }
