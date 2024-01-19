@@ -171,9 +171,5 @@ public class UserService implements IUserService {
     }
 
 
-    public void updateState(boolean state) {
-        Users user = getUserLogining();
-        user.setOnline(state);
-        usersRepository.save(user);
-    }
+
 }

@@ -43,9 +43,5 @@ public class UserController {
         return ResponseEntity.ok().body("Successfully");
     }
 
-    @PostMapping("/updatestate")
-    public ResponseEntity<String> updateState(@RequestParam  boolean State){
-        userService.updateState(State);
-        return ResponseEntity.ok().body("Successfully");
-    }
+
 }
